@@ -34,11 +34,9 @@ h2, h3 {
 .uploaded-file a {
     color: #007bff;
     text-decoration: none;
-    word-break: break-all; 
+    word-break: break-all;
 }
 
 .uploaded-file a:hover {
     text-decoration: underline;
 }
-
-/* Лишняя скобка удалена */
