@@ -1,4 +1,4 @@
-// --- script.js (Финальная рабочая версия) ---
+// --- script.js (Финальная рабочая версия с исправлением) ---
 
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
@@ -26,7 +26,6 @@ uploadBtn.addEventListener("click", async () => {
 
   for (let file of fileInput.files) {
     try {
-      // Загрузка
       const { error } = await supabase.storage
         .from('uploads')
         .upload(file.name, file, { upsert: true }); 
@@ -65,14 +64,11 @@ async function listFiles() {
   let fileCount = 0;
 
   for (let file of data) {
-    // Игнорируем технические файлы
     if (file.name === '.emptyFolderPlaceholder') continue; 
     
     fileCount++;
-    // Получаем публичный URL
     const { data: urlData } = supabase.storage.from('uploads').getPublicUrl(file.name);
     
-    // Создаем элемент списка
     uploadedFilesDiv.innerHTML += `
       <div class="uploaded-file">
         <a href="${urlData.publicUrl}" target="_blank">${file.name}</a>
