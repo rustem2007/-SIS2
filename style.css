@@ -22,7 +22,8 @@ h2, h3 {
     font-size: 14px;
 }
 
-.uploaded-file {
+/* Стиль для каждого загруженного файла в списке */
+.uploaded-file { 
     display: flex;
     justify-content: space-between;
     padding: 8px 10px;
@@ -34,8 +35,12 @@ h2, h3 {
 .uploaded-file a {
     color: #007bff;
     text-decoration: none;
+    /* Убеждаемся, что ссылка занимает всю доступную ширину */
+    word-break: break-all; 
 }
 
 .uploaded-file a:hover {
     text-decoration: underline;
 }
+
+/* ЛИШНЯЯ ЗАКРЫВАЮЩАЯ СКОБКА БЫЛА УДАЛЕНА ЗДЕСЬ */
