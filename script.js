@@ -1,9 +1,9 @@
-// --- script.js (Финальная рабочая версия с исправлением) ---
+// --- script.js (ФИНАЛЬНАЯ ИСПРАВЛЕННАЯ ВЕРСИЯ) ---
 
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
 
-// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Используем глобальный объект 'Supabase' (с большой S)
+// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Используем 'Supabase' (с большой S)
 const supabase = Supabase.createClient(supabaseUrl, supabaseKey); 
 
 const fileInput = document.getElementById("fileInput");
