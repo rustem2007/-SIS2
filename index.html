@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка файлов</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Загрузка файлов в Supabase</h2>
+
+    <input type="file" id="fileInput" multiple accept=".jpg,.png,.pdf">
+    <button id="uploadBtn">Загрузить</button>
+
+    <div id="fileList"></div>
+
+    <hr>
+    <h3>📂 Загруженные файлы:</h3>
+    <div id="uploadedFiles"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

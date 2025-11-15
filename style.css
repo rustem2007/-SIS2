@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f3;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.container {
+    width: 450px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px #aaa;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+#fileList p {
+    font-size: 14px;
+}
+
+.uploaded-file {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: #f7f7f7;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.uploaded-file a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.uploaded-file a:hover {
+    text-decoration: underline;
+}
