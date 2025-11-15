@@ -1,9 +1,10 @@
-// --- script.js (ФИНАЛЬНАЯ ИСПРАВЛЕННАЯ ВЕРСИЯ) ---
+// --- script.js (Финальная рабочая версия) ---
 
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
 
-// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Используем 'Supabase' (с большой S)
+// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ:
+// Используем 'Supabase' (с большой S), который был загружен из CDN в index.html
 const supabase = Supabase.createClient(supabaseUrl, supabaseKey); 
 
 const fileInput = document.getElementById("fileInput");
@@ -11,7 +12,7 @@ const uploadBtn = document.getElementById("uploadBtn");
 const fileListDiv = document.getElementById("fileList");
 const uploadedFilesDiv = document.getElementById("uploadedFiles");
 
-// Показ выбранных файлов
+// --- 1. Показ выбранных файлов ---
 fileInput.addEventListener("change", () => {
   fileListDiv.innerHTML = "";
   for (let file of fileInput.files) {
@@ -20,7 +21,7 @@ fileInput.addEventListener("change", () => {
   }
 });
 
-// Загрузка файлов
+// --- 2. Загрузка файлов ---
 uploadBtn.addEventListener("click", async () => {
   if (fileInput.files.length === 0) return alert("Выберите файлы");
 
@@ -31,6 +32,7 @@ uploadBtn.addEventListener("click", async () => {
         .upload(file.name, file, { upsert: true }); 
       
       if (error) {
+        // Ошибка (вероятно, из-за RLS, если вы не настроили INSERT)
         console.error(`Ошибка загрузки ${file.name}:`, error.message);
         alert(`❌ Ошибка загрузки файла ${file.name}: ${error.message}`);
         return; 
@@ -39,7 +41,7 @@ uploadBtn.addEventListener("click", async () => {
       console.log(`✅ Файл ${file.name} загружен успешно.`);
       
     } catch (e) {
-      console.error("Критическая ошибка:", e);
+      console.error("Критическая ошибка JS:", e);
       alert("Критическая ошибка JS. Проверьте консоль.");
       return;
     }
@@ -47,14 +49,15 @@ uploadBtn.addEventListener("click", async () => {
   
   fileInput.value = "";
   fileListDiv.innerHTML = "";
-  await listFiles();
+  await listFiles(); // Обновляем список после загрузки
 });
 
-// Список загруженных файлов
+// --- 3. Список загруженных файлов ---
 async function listFiles() {
   const { data, error } = await supabase.storage.from('uploads').list();
   
   if (error) { 
+    // Ошибка (вероятно, из-за RLS, если вы не настроили SELECT)
     console.error("Ошибка получения списка файлов:", error.message); 
     uploadedFilesDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
     return; 
@@ -64,6 +67,7 @@ async function listFiles() {
   let fileCount = 0;
 
   for (let file of data) {
+    // Игнорируем технические файлы
     if (file.name === '.emptyFolderPlaceholder') continue; 
     
     fileCount++;
@@ -81,5 +85,5 @@ async function listFiles() {
   }
 }
 
-// При загрузке страницы
+// --- 4. Загрузка списка при старте ---
 listFiles();
