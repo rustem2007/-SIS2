@@ -4,24 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Загрузка файлов в Supabase</title>
-  <link rel="stylesheet" href="style (3).css"> 
+  <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
   <div class="container">
     <h2>Загрузка файлов</h2>
     <input type="file" id="fileInput" multiple accept=".jpg,.png,.pdf"> 
     <button id="uploadBtn">Загрузить</button>
-
     <div id="fileList"></div> 
-
     <hr>
     <h3>📂 Загруженные файлы:</h3>
     <div id="uploadedFiles"></div> 
   </div>
 
-  <!-- ✅ ПРАВИЛЬНЫЙ CDN - unpkg вместо jsdelivr -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  
-  <script src="script (2).js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
