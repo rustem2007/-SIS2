@@ -1,9 +1,9 @@
-// --- script.js (Финальная и исправленная версия) ---
+// --- script.js (Финальная рабочая версия) ---
 
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
 
-// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Используем 'Supabase' (с большой S)
+// ⚠️ КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Используем глобальный объект 'Supabase' (с большой S)
 const supabase = Supabase.createClient(supabaseUrl, supabaseKey); 
 
 const fileInput = document.getElementById("fileInput");
@@ -26,13 +26,14 @@ uploadBtn.addEventListener("click", async () => {
 
   for (let file of fileInput.files) {
     try {
+      // Загрузка
       const { error } = await supabase.storage
         .from('uploads')
         .upload(file.name, file, { upsert: true }); 
       
       if (error) {
         console.error(`Ошибка загрузки ${file.name}:`, error.message);
-        alert(`❌ Ошибка загрузки файла ${file.name}: ${error.message}. Проверьте политики RLS!`);
+        alert(`❌ Ошибка загрузки файла ${file.name}: ${error.message}`);
         return; 
       }
       
@@ -40,7 +41,7 @@ uploadBtn.addEventListener("click", async () => {
       
     } catch (e) {
       console.error("Критическая ошибка:", e);
-      alert("Произошла критическая ошибка во время загрузки. Проверьте консоль.");
+      alert("Критическая ошибка JS. Проверьте консоль.");
       return;
     }
   }
@@ -54,10 +55,9 @@ uploadBtn.addEventListener("click", async () => {
 async function listFiles() {
   const { data, error } = await supabase.storage.from('uploads').list();
   
-  // Если ошибка, выводим ее в консоль и на сайт
   if (error) { 
     console.error("Ошибка получения списка файлов:", error.message); 
-    uploadedFilesDiv.innerHTML = `<p style="color: red;">Ошибка загрузки списка: ${error.message}</p>`;
+    uploadedFilesDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
     return; 
   }
 
@@ -65,14 +65,14 @@ async function listFiles() {
   let fileCount = 0;
 
   for (let file of data) {
-    // Игнорируем системные файлы
+    // Игнорируем технические файлы
     if (file.name === '.emptyFolderPlaceholder') continue; 
     
     fileCount++;
     // Получаем публичный URL
     const { data: urlData } = supabase.storage.from('uploads').getPublicUrl(file.name);
     
-    // Используем div с классом uploaded-file для стилизации
+    // Создаем элемент списка
     uploadedFilesDiv.innerHTML += `
       <div class="uploaded-file">
         <a href="${urlData.publicUrl}" target="_blank">${file.name}</a>
