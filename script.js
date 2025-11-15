@@ -1,13 +1,11 @@
-// --- script.js (Финальная версия с улучшенной обработкой ошибок) ---
-
-// Глобальные ключи
+// --- КЛЮЧИ SUPABASE ---
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
 
-// ⚠️ Исправленная инициализация
+// ⚠️ ИСПРАВЛЕНИЕ: Используем глобальный объект 'Supabase' (с большой S) из CDN
 const supabase = Supabase.createClient(supabaseUrl, supabaseKey); 
 
-// Элементы DOM
+// --- ЭЛЕМЕНТЫ DOM ---
 const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("uploadBtn");
 const fileListDiv = document.getElementById("fileList");
@@ -33,10 +31,10 @@ uploadBtn.addEventListener("click", async () => {
         .upload(file.name, file, { upsert: true }); 
       
       if (error) {
-        // Указываем на проблему с правами доступа или размером
+        // Вывод ошибки для пользователя
         console.error(`Ошибка загрузки ${file.name}:`, error.message);
-        alert(`❌ Ошибка загрузки файла ${file.name}. Проверьте политики RLS или размер файла. Подробности в консоли.`);
-        return; // Останавливаем загрузку, если произошла ошибка
+        alert(`❌ Ошибка загрузки файла ${file.name}: ${error.message}. Проверьте политики RLS!`);
+        return; 
       }
       
       console.log(`✅ Файл ${file.name} загружен успешно.`);
@@ -44,16 +42,17 @@ uploadBtn.addEventListener("click", async () => {
     } catch (e) {
       console.error("Критическая ошибка:", e);
       alert("Произошла критическая ошибка во время загрузки. Проверьте консоль.");
+      return;
     }
   }
   
-  // Очистка полей и обновление списка только после успешной загрузки всех файлов
+  // Очистка полей и обновление списка
   fileInput.value = "";
   fileListDiv.innerHTML = "";
   await listFiles();
 });
 
-// --- 3. Список загруженных файлов (логика не менялась) ---
+// --- 3. Список загруженных файлов ---
 async function listFiles() {
   const { data, error } = await supabase.storage.from('uploads').list();
   if (error) { 
