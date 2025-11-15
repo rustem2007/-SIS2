@@ -211,3 +211,4 @@ window.addEventListener('DOMContentLoaded', async () => {
   console.log("=== ИНИЦИАЛИЗАЦИЯ ЗАВЕРШЕНА ===\n\n");
   
 });
+
