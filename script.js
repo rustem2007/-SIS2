@@ -1,8 +1,10 @@
+// --- script.js (Финальная и исправленная версия) ---
+
 // --- КЛЮЧИ SUPABASE ---
 const supabaseUrl = 'https://epyutucscivggoitkbnz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXV0dWNzY2l2Z2dvaXRrYm56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxODQ4NjksImV4cCI6MjA3ODc2MDg2OX0.eW-2GJni95aCleqHa85oBpATb8VVj7kBykqqrxFWa4k';
 
-// ⚠️ ИСПРАВЛЕНИЕ: Используем глобальный объект 'Supabase' (с большой S) из CDN
+// ⚠️ ИСПРАВЛЕНИЕ КРИТИЧЕСКОЙ ОШИБКИ: Используем 'Supabase' (с большой S)
 const supabase = Supabase.createClient(supabaseUrl, supabaseKey); 
 
 // --- ЭЛЕМЕНТЫ DOM ---
@@ -31,7 +33,7 @@ uploadBtn.addEventListener("click", async () => {
         .upload(file.name, file, { upsert: true }); 
       
       if (error) {
-        // Вывод ошибки для пользователя
+        // Вывод ошибки для пользователя (вероятнее всего, RLS)
         console.error(`Ошибка загрузки ${file.name}:`, error.message);
         alert(`❌ Ошибка загрузки файла ${file.name}: ${error.message}. Проверьте политики RLS!`);
         return; 
